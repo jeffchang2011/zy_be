@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Default suite">
+	<test verbose="2" name="Default test">
+		<classes>
+			<class name="JavaSeleniumTestCase110" />  <!-- 针对没有用package管理的测试用例文件 -->
+			<class name="com.package.Test02" /> <!-- 包.类名的方式调用，针对用package来管理的测试用例文件 -->
+		</classes>
+	</test> <!-- Default test -->
+	<test name="Regression1" preserve-order="false">  <!-- 默认顺序执行为关闭，即非顺序方式执行 -->
+		<classes>
+			<class name="com.package.Test1">
+				<methods>
+					<include name="m1" />   <!-- 列出指定要执行的方法 -->
+					<exclude name="m2" />   <!-- 列出指定不执行的方法 -->
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test verbose="3" name="test2">
+		<groups>
+			<run>
+				<exclude name="brokenTests" />   <!-- 列出指定不执行的组 -->
+				<include name="checkinTests" />  <!-- 列出指定要执行的组 -->
+			</run>
+		</groups>
+		<packages>
+			<package name="com.sample1" />  <!-- 执行com.sample包下的所有测试用例文件 -->
+			<package name="com.sample2" />
+		</packages>
+	</test>
+</suite>   

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="suggest_auto_test_proj" default="run" basedir=".">
+	<path id="compile.classpath">
+		<fileset dir="${libpath}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<property name="libpath" value="${basedir}/lib" />
+	<target name="compile">
+		<echo message="this is the compile target"></echo>
+		<mkdir dir="${basedir}/bin" />
+		<javac srcdir="${basedir}/src" destdir="${basedir}/bin" includeAntRuntime="false">
+			<compilerarg line="-encoding UTF-8" />
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+	<target name="run" depends="compile">
+		<echo message="this is the run target"></echo>
+		<pathconvert property="libs.project" pathsep=";">
+			<mapper>
+				<chainedmapper>
+					<!-- remove absolute path -->
+					<flattenmapper />
+					<!-- add lib/ prefix -->
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<!-- lib.home contains all jar files, in several subdirectories -->
+				<fileset dir="${libpath}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<java classname="org.testng.TestNG">
+		    <!--  
+			<arg line="-testclass test_case.sugg_svr_test" />
+			-->
+			<arg line="test.xml" />
+			<!--
+			<jvmarg value="-Dfile.encoding=GBK"/>
+			-->
+			<classpath>
+				<pathelement path="${basedir}/bin;${libs.project}" />
+			</classpath>
+		</java>
+	</target>
+</project>
